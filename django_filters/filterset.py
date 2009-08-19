@@ -237,7 +237,7 @@ class BaseFilterSet(object):
         return self._ordering_field
 
     @classmethod
-    def filter_for_field(cls, f, name):
+    def filter_for_field(cls, f, name, **kwargs):
         filter_for_field = dict(FILTER_FOR_DBFIELD_DEFAULTS, **cls.filter_overrides)
 
         default = {
@@ -254,6 +254,7 @@ class BaseFilterSet(object):
             return
         filter_class = data.get('filter_class')
         default.update(data.get('extra', lambda f: {})(f))
+        default.update(kwargs)
         if filter_class is not None:
             return filter_class(**default)
 
