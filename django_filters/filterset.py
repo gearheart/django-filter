@@ -198,9 +198,9 @@ class BaseFilterSet(object):
                 try:
                     if self.is_bound:
                         data = self.form[name].data
+                        val = self.form.fields[name].clean(data)
                     else:
-                        data = self.form.initial.get(name, self.form[name].field.initial)
-                    val = self.form.fields[name].clean(data)
+                        val = self.form.initial.get(name, self.form[name].field.initial)
                     qs = filter_.filter(qs, val)
                 except forms.ValidationError:
                     pass
