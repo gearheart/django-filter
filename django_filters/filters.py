@@ -113,6 +113,20 @@ class RangeFilter(Filter):
             return qs.filter(**{'%s__range' % self.name: (value.start, value.stop)})
         return qs
 
+
+class UnboundRandeFilter(Filter):
+    field_class = RangeField
+
+    def filter(self, qs, value):
+        if value:
+            if not value.start is None and not value.stop is None:
+                return qs.filter(**{'%s__range' % self.name: (value.start, value.stop)})
+            elif not value.start is None:
+                return qs.filter(**{'%s__gte' % self.name: value.start})
+            elif not value.stop is None:
+                return qs.filter(**{'%s__lte' % self.name: value.stop})
+        return qs
+
 class DateRangeFilter(ChoiceFilter):
     options = {
         '': (_('Any Date'), lambda qs, name: qs.all()),
