@@ -114,7 +114,7 @@ class RangeFilter(Filter):
         return qs
 
 
-class UnboundRandeFilter(Filter):
+class UnboundRangeFilter(Filter):
     field_class = RangeField
 
     def filter(self, qs, value):
